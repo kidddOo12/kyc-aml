@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMS Study Calendar – Vikas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c12;
+    --surface: #111420;
+    --card: #161b2e;
+    --border: #1e2540;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e2f;
+    --gold-glow: rgba(201,168,76,0.12);
+    --teal: #2dd4bf;
+    --red: #f87171;
+    --green: #4ade80;
+    --blue: #60a5fa;
+    --muted: #4b5473;
+    --text: #d4d8f0;
+    --text-dim: #7880a0;
+    --review: #1e1040;
+    --review-border: #6d28d9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, #0a0c12 0%, #0d1428 50%, #0a0c12 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 560px;
+    margin-bottom: 28px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* UAE MOTIVATION BAR */
+  .uae-bar {
+    background: linear-gradient(90deg, #0a1628, #0d2040, #0a1628);
+    border-top: 1px solid var(--gold-dim);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    text-align: center;
+  }
+  .uae-bar p {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .uae-bar strong { color: var(--gold); }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* RESOURCES GRID */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+    margin-bottom: 52px;
+  }
+  .resource-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .resource-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+  }
+  .resource-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .resource-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .resource-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .resource-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--gold-dim);
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .resource-link:hover { background: var(--gold-glow); }
+
+  /* PHASE */
+  .phase {
+    margin-bottom: 48px;
+  }
+  .phase-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .phase-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: #fff;
+  }
+  .phase-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .phase-tag {
+    font-size: 11px;
+    color: var(--gold);
+    background: var(--gold-glow);
+    border: 1px solid var(--gold-dim);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* WEEK GRID */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 800px) { .week-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) { .week-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 130px;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .day-card:hover { border-color: #2a3060; }
+  .day-card.review {
+    background: var(--review);
+    border-color: var(--review-border);
+  }
+  .day-card.exam {
+    background: linear-gradient(135deg, #1a0a00, #2a1500);
+    border-color: var(--gold);
+    border-width: 2px;
+  }
+  .day-card.light {
+    background: #0e1520;
+    border-color: #1a2035;
+  }
+
+  .day-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .day-num .date { color: var(--text-dim); }
+  .day-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-review { background: #3b1d8a; color: #c4b5fd; }
+  .badge-exam { background: #7c4500; color: var(--gold); }
+  .badge-light { background: #1a2035; color: var(--text-dim); }
+
+  .day-topic {
+    font-size: 12px;
+    font-weight: 600;
+    color: #c8d0f0;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .day-card.review .day-topic { color: #c4b5fd; }
+  .day-card.exam .day-topic { color: var(--gold); font-size: 13px; }
+
+  .day-resource {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .day-card.review .day-resource { color: #9b8fc4; border-top-color: #3b1d8a; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+  .dot-study { background: var(--card); border-color: var(--border); }
+  .dot-review { background: var(--review); border-color: var(--review-border); }
+  .dot-light { background: #0e1520; border-color: #1a2035; }
+  .dot-exam { background: #1a0a00; border-color: var(--gold); }
+
+  /* EXAM TIP */
+  .exam-tips {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 8px;
+  }
+  .exam-tips h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .tip-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .tip-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .tip-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .tip-text strong { color: var(--text); }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">// CAMS Certification – Study Roadmap</div>
+    <h1>12-Week Path to <span>CAMS</span><br>& UAE Career Launch</h1>
+    <p class="hero-sub">Day-by-day study plan built around free resources only. 2 hours/day. No paid courses. Exam target: mid-July 2026.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-val">84</span><span class="stat-label">Study Days</span></div>
+      <div class="stat"><span class="stat-val">2 hrs</span><span class="stat-label">Daily Commitment</span></div>
+      <div class="stat"><span class="stat-val">$0</span><span class="stat-label">Extra Study Cost</span></div>
+      <div class="stat"><span class="stat-val">AED 18K</span><span class="stat-label">Target UAE Salary/mo</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="uae-bar">
+  <p>🎯 Goal: <strong>CAMS certified → UAE job offer</strong> → AED 12,000–18,000/month at FAB, Emirates NBD, Mashreq, or Western Union UAE &nbsp;|&nbsp; You've done real SAR work across APAC, EMEA & Americas. The exam is just formalising what you already know.</p>
+</div>
+
+<div class="container">
+
+  <!-- FREE RESOURCES -->
+  <div class="section-title">Free Study Resources – Zero Cost</div>
+  <div class="resources-grid">
+
+    <div class="resource-card">
+      <div class="resource-tag">Core – FATF</div>
+      <div class="resource-name">FATF 40 Recommendations</div>
+      <div class="resource-desc">The Bible of AML. Download PDF free. Every CAMS question traces back here. Read it 3x over 12 weeks.</div>
+      <a class="resource-link" href="https://www.fatf-gafi.org/en/topics/fatf-recommendations.html" target="_blank">→ fatf-gafi.org</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Core – FATF</div>
+      <div class="resource-name">FATF Guidance & Typologies Reports</div>
+      <div class="resource-desc">Free PDFs on Virtual Assets, Trade Finance, PEPs, Beneficial Ownership, DNFBP. High exam relevance.</div>
+      <a class="resource-link" href="https://www.fatf-gafi.org/en/publications.html" target="_blank">→ FATF Publications</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Core – Wolfsberg</div>
+      <div class="resource-name">Wolfsberg Group Principles</div>
+      <div class="resource-desc">Free access to AML Principles for banks, correspondent banking, PEP guidance, trade finance. Download all.</div>
+      <a class="resource-link" href="https://www.wolfsberg-principles.com/wolfsberg-standards" target="_blank">→ wolfsberg-principles.com</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Core – FinCEN</div>
+      <div class="resource-name">FinCEN Guidance & Advisories</div>
+      <div class="resource-desc">SAR filing rules, CTR requirements, FIN-2014 series advisories on MSBs, shell companies, trade finance.</div>
+      <a class="resource-link" href="https://www.fincen.gov/resources/statutes-regulations/guidance" target="_blank">→ fincen.gov</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Practice – ACAMS</div>
+      <div class="resource-name">ACAMS Free Exam Prep Resources</div>
+      <div class="resource-desc">CAMS Exam Handbook (free, no membership), sample questions, and webinar replays on ACAMS website.</div>
+      <a class="resource-link" href="https://www.acams.org/en/training/certifications/cams" target="_blank">→ acams.org/cams</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Video – Free</div>
+      <div class="resource-name">ACAMS Official YouTube Channel</div>
+      <div class="resource-desc">Webinar replays, typology explanations, exam prep sessions. Watch during commute. No cost.</div>
+      <a class="resource-link" href="https://www.youtube.com/@ACAMSofficial" target="_blank">→ YouTube @ACAMSofficial</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Intelligence</div>
+      <div class="resource-name">Egmont Group – FIU Case Studies</div>
+      <div class="resource-desc">Free typology papers & FIU cooperation case studies. Good for law enforcement cooperation section.</div>
+      <a class="resource-link" href="https://egmontgroup.org/knowledge-centre/" target="_blank">→ egmontgroup.org</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Standards</div>
+      <div class="resource-name">Basel Committee AML Guidelines</div>
+      <div class="resource-desc">Guidelines on Sound Management of Risks related to ML and TF. Free download from BIS website.</div>
+      <a class="resource-link" href="https://www.bis.org/bcbs/publ/d490.htm" target="_blank">→ bis.org/bcbs</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">UAE Specific</div>
+      <div class="resource-name">UAE FIU / CBUAE AML Guidelines</div>
+      <div class="resource-desc">UAE Central Bank AML/CFT guidelines, goAML system info. Essential for UAE job interviews + context.</div>
+      <a class="resource-link" href="https://www.cbuae.gov.ae/en/aml-cft" target="_blank">→ cbuae.gov.ae</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Practice Tests</div>
+      <div class="resource-name">Free CAMS Practice Questions</div>
+      <div class="resource-desc">Search "CAMS practice questions free" on ExamTopics, StudyLib, and Quizlet. 200+ community questions available.</div>
+      <a class="resource-link" href="https://quizlet.com/subject/CAMS/" target="_blank">→ Quizlet – CAMS</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">UN Conventions</div>
+      <div class="resource-name">UNODC – Vienna, Palermo, Merida</div>
+      <div class="resource-desc">UN drug convention (Vienna 1988), Transnational Crime (Palermo 2000), Anti-corruption (Merida). Free PDFs.</div>
+      <a class="resource-link" href="https://www.unodc.org/unodc/en/money-laundering/conventions.html" target="_blank">→ unodc.org</a>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-tag">Quick Reference</div>
+      <div class="resource-name">CAMS Exam Handbook (Free PDF)</div>
+      <div class="resource-desc">Exact syllabus breakdown with topic weightings. Download before Day 1. Know what's tested and how much.</div>
+      <a class="resource-link" href="https://www.acams.org/en/training/certifications/cams/examination" target="_blank">→ Download Handbook</a>
+    </div>
+
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-study"></div> Study Day (2 hrs)</div>
+    <div class="legend-item"><div class="legend-dot dot-review"></div> Review / Mock Test Day</div>
+    <div class="legend-item"><div class="legend-dot dot-light"></div> Light Day (1 hr – Sunday rest)</div>
+    <div class="legend-item"><div class="legend-dot dot-exam"></div> Exam Day</div>
+  </div>
+
+  <!-- ========== PHASE 1 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 1 — AML Risks, Methods & Typologies</div>
+        <div class="phase-meta">Weeks 1–2 &nbsp;·&nbsp; Apr 21 – May 3, 2026</div>
+      </div>
+      <div class="phase-tag">~20% of CAMS Exam</div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 1 <span class="date">Apr 21 Tue</span></div>
+        <div class="day-topic">What is Money Laundering? 3 Stages: Placement → Layering → Integration</div>
+        <div class="day-resource">📖 FATF 40 Recs – Rec 3 + CAMS Handbook Ch 1. Write definitions in own words.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 2 <span class="date">Apr 22 Wed</span></div>
+        <div class="day-topic">ML Methods: Cash Smuggling, Shell Companies, Smurfing, Structuring</div>
+        <div class="day-resource">📖 FATF Typologies Report – Money Laundering Methods. Note 5 key red flags each.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 3 <span class="date">Apr 23 Thu</span></div>
+        <div class="day-topic">ML through Real Estate, Luxury Goods & Art Market</div>
+        <div class="day-resource">📖 FATF Report: Money Laundering Through Real Estate (free PDF). Study UAE angle.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 4 <span class="date">Apr 24 Fri</span></div>
+        <div class="day-topic">Virtual Assets & Crypto ML Typologies – VASP obligations</div>
+        <div class="day-resource">📖 FATF Guidance on Virtual Assets 2021 (free). Key: Travel Rule, VASP definition.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 5 <span class="date">Apr 25 Sat</span></div>
+        <div class="day-topic">ML through Gaming, Insurance, MSBs & Casinos</div>
+        <div class="day-resource">📖 FATF DNFBP guidance + FinCEN Casino SAR advisory. Memorise DNFBP list.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 6 <span class="date">Apr 26 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Flashcard Review: All typologies from Week 1</div>
+        <div class="day-resource">🔁 Use Quizlet or paper. 1 hour max. Rest is part of the plan.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 7 <span class="date">Apr 27 Mon</span></div>
+        <div class="day-topic">Terrorism Financing vs ML — Key Differences & Methods</div>
+        <div class="day-resource">📖 FATF Guidance on TF + UN Security Council Resolutions summary. Make comparison table.</div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 8 <span class="date">Apr 28 Tue</span></div>
+        <div class="day-topic">Predicate Offenses — FATF's 21 Designated Categories of Offenses</div>
+        <div class="day-resource">📖 FATF 40 Recs – Rec 3 Interpretive Note. Memorise all 21 categories.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 9 <span class="date">Apr 29 Wed</span></div>
+        <div class="day-topic">Correspondent Banking Risks & De-Risking</div>
+        <div class="day-resource">📖 Wolfsberg Correspondent Banking Principles (free). Also Basel Guidelines Ch 2.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 10 <span class="date">Apr 30 Thu</span></div>
+        <div class="day-topic">Trade Finance ML Typologies – Phantom Shipments, Over/Under Invoicing</div>
+        <div class="day-resource">📖 FATF Trade-Based ML Report (free). Your actual work experience – connect it here.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 11 <span class="date">May 1 Fri</span></div>
+        <div class="day-topic">Cybercrime, Online Fraud & Proceeds of Crime Typologies</div>
+        <div class="day-resource">📖 FATF Report: Cybercrime & ML. FinCEN advisory on BEC scams (free).</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 12 <span class="date">May 2 Sat</span></div>
+        <div class="day-topic">New Payment Methods: E-money, Mobile Payments, Prepaid Cards – AML risks</div>
+        <div class="day-resource">📖 FATF Guidance: New Payment Methods (NPM). Relevant to payment gateway role.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 13 <span class="date">May 3 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Light review: Typologies mind map. Write 1 paragraph on each of the 5 ML methods.</div>
+        <div class="day-resource">🔁 Own words only. This is how you make it stick. No new material.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 14 <span class="date">May 4 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">Phase 1 Mock Test — Typologies & Methods (20 practice Qs)</div>
+        <div class="day-resource">🧪 Quizlet CAMS deck + ExamTopics. Score yourself. Revisit every wrong answer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 2 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 2 — International AML Standards</div>
+        <div class="phase-meta">Weeks 3–4 &nbsp;·&nbsp; May 5 – May 18, 2026</div>
+      </div>
+      <div class="phase-tag">~25% of CAMS Exam</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 15 <span class="date">May 5 Tue</span></div>
+        <div class="day-topic">FATF — History, Mandate, Membership & Mutual Evaluation Process</div>
+        <div class="day-resource">📖 FATF website – About FATF section. Understand blacklist/greylist mechanism.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 16 <span class="date">May 6 Wed</span></div>
+        <div class="day-topic">FATF 40 Recs — Overview, Structure & 4 Themes</div>
+        <div class="day-resource">📖 Read full 40 Recs document. Mark each Rec under its theme. 1 read-through only today.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 17 <span class="date">May 7 Thu</span></div>
+        <div class="day-topic">FATF Recs 1–10 — ML Offense, TF Offense, Confiscation, Targeted Financial Sanctions</div>
+        <div class="day-resource">📖 FATF 40 Recs PDF + Interpretive Notes. Write 1-line summary per Rec.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 18 <span class="date">May 8 Fri</span></div>
+        <div class="day-topic">FATF Recs 11–20 — CDD, Record Keeping, PEPs, Correspondent Banking, New Technologies</div>
+        <div class="day-resource">📖 FATF 40 Recs. These are HIGH FREQUENCY exam topics. Learn Rec 10 CDD in detail.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 19 <span class="date">May 9 Sat</span></div>
+        <div class="day-topic">FATF Recs 21–30 — STR Reporting, DNFBPs, Internal Controls, Higher Risk Countries</div>
+        <div class="day-resource">📖 FATF 40 Recs. Rec 20 (STR) and Rec 22-23 (DNFBPs) are critical. Note which sectors.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 20 <span class="date">May 10 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: Write FATF Recs 1–30 summary in a table (Rec number + 1-line description)</div>
+        <div class="day-resource">🔁 Do this from memory first, then check. This builds exam recall faster.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 21 <span class="date">May 11 Mon</span></div>
+        <div class="day-topic">FATF Recs 31–40 — Law Enforcement Powers, FIUs, International Cooperation, Extradition</div>
+        <div class="day-resource">📖 FATF 40 Recs. Rec 29 (FIU), Rec 40 (Cooperation) are exam favourites.</div>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 22 <span class="date">May 12 Tue</span></div>
+        <div class="day-topic">UN Conventions — Vienna (1988), Palermo (2000), Merida (2003)</div>
+        <div class="day-resource">📖 UNODC summaries (free). Know the key provisions of each. Vienna = drugs, Palermo = organised crime.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 23 <span class="date">May 13 Wed</span></div>
+        <div class="day-topic">Basel Committee — AML Risk Management Guidelines for Banks</div>
+        <div class="day-resource">📖 BIS.org – Basel AML Guidelines 2020 (free PDF, 60 pages). Focus on sections 2–4.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 24 <span class="date">May 14 Thu</span></div>
+        <div class="day-topic">Egmont Group — What are FIUs? How do they share intelligence?</div>
+        <div class="day-resource">📖 Egmont Group website + free typology papers. Understand Egmont Principles for FIU info sharing.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 25 <span class="date">May 15 Fri</span></div>
+        <div class="day-topic">Wolfsberg Group — Who are they? Overview of all Wolfsberg Principles</div>
+        <div class="day-resource">📖 wolfsberg-principles.com – download all 5 key principles documents. Free.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 26 <span class="date">May 16 Sat</span></div>
+        <div class="day-topic">FATF-Style Regional Bodies: APG, MENAFATF, MONEYVAL, GIABA, GAFILAT</div>
+        <div class="day-resource">📖 FATF website – FSRB section. Know which countries are in each body. UAE = MENAFATF.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 27 <span class="date">May 17 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Draw International AML Framework map from memory (FATF → FSRBs → National → FIUs)</div>
+        <div class="day-resource">🔁 One-page diagram. Highly useful for exam scenario questions. Keep for revision.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 28 <span class="date">May 18 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">Phase 2 Mock Test — International Standards (25 practice Qs)</div>
+        <div class="day-resource">🧪 ACAMS sample questions + Quizlet. Target score: 80%+. If below, revisit FATF Recs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 3 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 3 — KYC / CDD / EDD & PEPs</div>
+        <div class="phase-meta">Weeks 5–6 &nbsp;·&nbsp; May 19 – Jun 1, 2026</div>
+      </div>
+      <div class="phase-tag">~25% of CAMS Exam</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 29 <span class="date">May 19 Tue</span></div>
+        <div class="day-topic">CDD: 4 Core Elements — Identification, Verification, Beneficial Owner, Purpose of Relationship</div>
+        <div class="day-resource">📖 FATF Rec 10 + Interpretive Note in detail. This is your daily work — connect to real cases.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 30 <span class="date">May 20 Wed</span></div>
+        <div class="day-topic">Customer Identification: Natural Persons vs Legal Entities — Documents & Verification</div>
+        <div class="day-resource">📖 FATF CDD Guidance (free PDF). Compare to your real merchant onboarding workflow.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 31 <span class="date">May 21 Thu</span></div>
+        <div class="day-topic">Beneficial Ownership: FATF 25% threshold, UBO definition, layered structures</div>
+        <div class="day-resource">📖 FATF Guidance on Beneficial Ownership 2023 (free). Key exam topic. Know the loopholes.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 32 <span class="date">May 22 Fri</span></div>
+        <div class="day-topic">Legal Entity Structures: Trusts, Shell Companies, Foundations — AML risks</div>
+        <div class="day-resource">📖 FATF Report on Misuse of Corporate Vehicles (free). Know nominee directors/shareholders.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 33 <span class="date">May 23 Sat</span></div>
+        <div class="day-topic">Simplified Due Diligence (SDD) — When is it allowed? Conditions & risks</div>
+        <div class="day-resource">📖 FATF Rec 10 Interpretive Note – SDD section. Know the triggers and limitations.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 34 <span class="date">May 24 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: Write CDD process flow from memory. SDD vs CDD vs EDD — comparison table</div>
+        <div class="day-resource">🔁 This table will appear in your exam. Build it now and memorise it.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 35 <span class="date">May 25 Mon</span></div>
+        <div class="day-topic">Enhanced Due Diligence (EDD) — Triggers, Requirements, Ongoing Monitoring</div>
+        <div class="day-resource">📖 FATF Rec 10 + 12 (PEPs) + Wolfsberg EDD Guidance. Know what actions EDD requires.</div>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 36 <span class="date">May 26 Tue</span></div>
+        <div class="day-topic">PEPs: Definition, Domestic vs Foreign PEP, Family Members, Close Associates</div>
+        <div class="day-resource">📖 FATF Guidance on PEPs (free, 2013 + updated). Know who qualifies. UAE has many.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 37 <span class="date">May 27 Wed</span></div>
+        <div class="day-topic">PEP EDD Requirements: Senior Management Approval, Source of Wealth/Funds, Enhanced Monitoring</div>
+        <div class="day-resource">📖 Wolfsberg PEP Guidance + FATF Rec 12. Your CLEAR screening experience is directly relevant.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 38 <span class="date">May 28 Thu</span></div>
+        <div class="day-topic">Correspondent Banking CDD: Respondent Due Diligence, Payable Through Accounts</div>
+        <div class="day-resource">📖 Wolfsberg Correspondent Banking Principles + FATF Rec 13. Shell bank prohibition.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 39 <span class="date">May 29 Fri</span></div>
+        <div class="day-topic">DNFBPs: Who They Are, Their Specific CDD Obligations vs Banks</div>
+        <div class="day-resource">📖 FATF Recs 22–23 + DNFBP Guidance. List: lawyers, accountants, real estate agents, casinos, TCSPs.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 40 <span class="date">May 30 Sat</span></div>
+        <div class="day-topic">Ongoing Monitoring: Transaction Monitoring, Periodic Reviews, Trigger Events</div>
+        <div class="day-resource">📖 FATF Rec 10 – ongoing monitoring element. Connect to your real TM work.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 41 <span class="date">May 31 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: PEP identification drill — 10 fictional scenarios, classify each as PEP or not</div>
+        <div class="day-resource">🔁 Create scenarios yourself. This is the best exam prep method for PEP questions.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 42 <span class="date">Jun 1 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">Phase 3 Mock Test — KYC/CDD/EDD (25 practice Qs)</div>
+        <div class="day-resource">🧪 Focus on scenario-based questions. These are the format CAMS actually uses.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 4 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 4 — Transaction Monitoring & Red Flags</div>
+        <div class="phase-meta">Weeks 7–8 &nbsp;·&nbsp; Jun 2 – Jun 15, 2026</div>
+      </div>
+      <div class="phase-tag">~15% of CAMS Exam</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 43 <span class="date">Jun 2 Tue</span></div>
+        <div class="day-topic">TM Systems: Rule-Based vs AI/ML-Based. How Alerts Are Generated.</div>
+        <div class="day-resource">📖 ACAMS white papers (free). Also relate to your daily alert review work — you already know this.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 44 <span class="date">Jun 3 Wed</span></div>
+        <div class="day-topic">Red Flags: Cash-Intensive Businesses, Unusual Cash Deposits</div>
+        <div class="day-resource">📖 FinCEN Red Flag list (free). Create your own master red flag table. Classify by type.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 45 <span class="date">Jun 4 Thu</span></div>
+        <div class="day-topic">Red Flags: Wire Transfers, International Payments, Jurisdictional Risk</div>
+        <div class="day-resource">📖 Wolfsberg FAQ on Wire Transfers + FinCEN advisories. Connect to APAC/EMEA work.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 46 <span class="date">Jun 5 Fri</span></div>
+        <div class="day-topic">Red Flags: Trade Finance — Over/Under Invoicing, Multiple Invoicing, Phantom Shipments</div>
+        <div class="day-resource">📖 FATF Trade-Based ML (revisit). FinCEN FIN-2010-A001 advisory (free).</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 47 <span class="date">Jun 6 Sat</span></div>
+        <div class="day-topic">Red Flags: Virtual Assets, Crypto Mixing, Unhosted Wallets, NFTs</div>
+        <div class="day-resource">📖 FATF VA Guidance 2021 + FinCEN crypto advisories. Grow knowledge of travel rule.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 48 <span class="date">Jun 7 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Build: Master Red Flag Table (by sector) — 5 red flags per sector you've studied</div>
+        <div class="day-resource">🔁 This becomes your revision cheat sheet for Phase 4. Keep it.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 49 <span class="date">Jun 8 Mon</span></div>
+        <div class="day-topic">Red Flags: Real Estate, High-Value Dealers, Loan-Back Schemes</div>
+        <div class="day-resource">📖 FATF Real Estate Guidance + ACAMS red flag resources (free on website).</div>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 50 <span class="date">Jun 9 Tue</span></div>
+        <div class="day-topic">STR/SAR Filing: Who Files, What Triggers Filing, Reporting Thresholds by Jurisdiction</div>
+        <div class="day-resource">📖 FATF Rec 20 + FinCEN SAR guidance + UK NCA SAR guidance. Your multi-jurisdiction SAR experience is gold here.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 51 <span class="date">Jun 10 Wed</span></div>
+        <div class="day-topic">US SAR Requirements: FinCEN, BSA, 30-day & 60-day deadlines, Continuing Activity SARs</div>
+        <div class="day-resource">📖 FinCEN SAR filing instructions (free). Know the specific US rules cold — exam loves this.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 52 <span class="date">Jun 11 Thu</span></div>
+        <div class="day-topic">UK SAR Regime: NCA, DAML consent, 7-day rule, Moratorium Period</div>
+        <div class="day-resource">📖 UK NCA SARs Annual Report (free) + FCA guidance. Know DAML vs standard SAR.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 53 <span class="date">Jun 12 Fri</span></div>
+        <div class="day-topic">UAE goAML System, CBUAE STR Requirements, ADGM/DIFC AML rules</div>
+        <div class="day-resource">📖 CBUAE AML guidelines + UAE FIU website. This is your target jurisdiction — know it deeply.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 54 <span class="date">Jun 13 Sat</span></div>
+        <div class="day-topic">Tipping Off: What It Is, Prohibition, Safe Harbour Provisions, Internal Disclosures</div>
+        <div class="day-resource">📖 FATF Rec 21 + jurisdiction-specific rules. Very testable. Write the definition from memory.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 55 <span class="date">Jun 14 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: Write the SAR filing process from alert → investigation → decision → filing (in your own words)</div>
+        <div class="day-resource">🔁 This is a near-certain essay-style scenario question. Practice writing it clearly in English.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 56 <span class="date">Jun 15 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">Phase 4 Mock Test — TM & SAR (20 practice Qs)</div>
+        <div class="day-resource">🧪 Scenario-based questions only. Real exam is 80% scenarios, 20% recall.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 5 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 5 — AML Compliance Program</div>
+        <div class="phase-meta">Week 9 &nbsp;·&nbsp; Jun 16 – Jun 22, 2026</div>
+      </div>
+      <div class="phase-tag">~10% of CAMS Exam</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 57 <span class="date">Jun 16 Tue</span></div>
+        <div class="day-topic">5 Pillars of an AML Compliance Program: Policies, Procedures, Internal Controls, Training, Testing</div>
+        <div class="day-resource">📖 US BSA "5 Pillars" + FATF Rec 18. Memorise all 5. These appear in every exam version.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 58 <span class="date">Jun 17 Wed</span></div>
+        <div class="day-topic">Risk-Based Approach (RBA) — Core Concept, Customer Risk Scoring, Risk Appetite</div>
+        <div class="day-resource">📖 FATF Guidance on RBA for Banks (free). Know the 3-tier risk model: Low / Medium / High.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 59 <span class="date">Jun 18 Thu</span></div>
+        <div class="day-topic">ML/TF Risk Assessment: Enterprise-Wide, Country Risk, Product Risk, Channel Risk</div>
+        <div class="day-resource">📖 Wolfsberg ML Risk Assessment (free). Study risk factors: geography, products, customers, channels.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 60 <span class="date">Jun 19 Fri</span></div>
+        <div class="day-topic">Policies & Procedures — MLRO role, Board responsibilities, Compliance Officer obligations</div>
+        <div class="day-resource">📖 FATF Rec 18. Know that MLRO needs seniority + resources. Common exam scenario.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 61 <span class="date">Jun 20 Sat</span></div>
+        <div class="day-topic">AML Training Requirements — Frequency, Content, Staff Segments, New Hire vs Ongoing</div>
+        <div class="day-resource">📖 FATF Rec 18 + FinCEN guidance. Know what training records to maintain.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 62 <span class="date">Jun 21 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: Design a 1-page AML program for a hypothetical payment gateway (like your client)</div>
+        <div class="day-resource">🔁 Apply directly. Use your own work context. Makes this section deeply memorable.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 63 <span class="date">Jun 22 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">Phase 5 Mock Test — Compliance Program (15 Qs) + Full half-paper mock (60 Qs)</div>
+        <div class="day-resource">🧪 First full-length timed session. 60 questions in 90 minutes. Identify weak areas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 6 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 6 — SAR Investigation & Law Enforcement Cooperation</div>
+        <div class="phase-meta">Week 10 &nbsp;·&nbsp; Jun 23 – Jun 29, 2026</div>
+      </div>
+      <div class="phase-tag">~5% of CAMS Exam</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card">
+        <div class="day-num">Day 64 <span class="date">Jun 23 Tue</span></div>
+        <div class="day-topic">FIU Role in Law Enforcement — Intelligence vs Operational FIUs, Egmont cooperation</div>
+        <div class="day-resource">📖 Egmont Group Principles (free). Know 3 types of FIU: administrative, judicial, law enforcement.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 65 <span class="date">Jun 24 Wed</span></div>
+        <div class="day-topic">Mutual Legal Assistance Treaties (MLATs) — How Evidence Is Shared Across Borders</div>
+        <div class="day-resource">📖 UNODC MLAT guide (free). Know the process and limitations. Common exam context.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 66 <span class="date">Jun 25 Thu</span></div>
+        <div class="day-topic">Asset Forfeiture & Confiscation — Civil vs Criminal, Third Party Rights</div>
+        <div class="day-resource">📖 FATF Recs 4–5. Know the difference between freezing, seizing, and confiscating.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 67 <span class="date">Jun 26 Fri</span></div>
+        <div class="day-topic">Major AML Enforcement Cases: 1MDB, Danske Bank, Wachovia, BNP Paribas, HSBC Mexico</div>
+        <div class="day-resource">📖 ACAMS case studies (free) + news articles. Know the failure points in each case.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 68 <span class="date">Jun 27 Sat</span></div>
+        <div class="day-topic">Whistleblower Protections, Safe Harbour & Legal Liability for Compliance Officers</div>
+        <div class="day-resource">📖 FATF Rec 21 + jurisdiction rules. Know that SAR filers are protected from civil liability.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 69 <span class="date">Jun 28 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Review: Timeline of global AML regulation — key milestones from 1989 to today</div>
+        <div class="day-resource">🔁 From FATF founding → post-9/11 → 2008 crisis → FinCEN Files 2020 → today. Build a timeline.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 70 <span class="date">Jun 29 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">FULL MOCK EXAM — 120 Questions, 3.5 Hours Timed</div>
+        <div class="day-resource">🧪 Most important practice session. Simulate exam conditions. No phone. Score and analyse every wrong answer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 7 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 7 — Full Revision Sprint</div>
+        <div class="phase-meta">Week 11 &nbsp;·&nbsp; Jun 30 – Jul 6, 2026</div>
+      </div>
+      <div class="phase-tag">Consolidation</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card review">
+        <div class="day-num">Day 71 <span class="date">Jun 30 Tue</span><span class="day-badge badge-review">Revision</span></div>
+        <div class="day-topic">Revision: Typologies & ML Methods — Re-read Phase 1 notes + flashcards only</div>
+        <div class="day-resource">🔁 Add any new red flags you've learned. Update your master table.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 72 <span class="date">Jul 1 Wed</span><span class="day-badge badge-review">Revision</span></div>
+        <div class="day-topic">Revision: FATF 40 Recs — Re-read your 1-line summaries table. Test yourself on each Rec</div>
+        <div class="day-resource">🔁 Cover the description column, read Rec number, and recall. Any blank = re-read the Rec.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 73 <span class="date">Jul 2 Thu</span><span class="day-badge badge-review">Revision</span></div>
+        <div class="day-topic">Revision: KYC/CDD/EDD/PEP — Review your SDD vs CDD vs EDD table. PEP scenario drill.</div>
+        <div class="day-resource">🔁 10 new PEP scenarios. Focus: what triggers EDD? What does senior management approval mean?</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 74 <span class="date">Jul 3 Fri</span><span class="day-badge badge-review">Revision</span></div>
+        <div class="day-topic">Revision: Compliance Program — 5 Pillars, RBA, Risk Assessment Methodology</div>
+        <div class="day-resource">🔁 Draw the risk-based approach flowchart from memory. Explain it out loud in English.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 75 <span class="date">Jul 4 Sat</span><span class="day-badge badge-review">Revision</span></div>
+        <div class="day-topic">Revision: SAR Filing & Reporting — Multi-jurisdiction rules comparison (US / UK / UAE)</div>
+        <div class="day-resource">🔁 3-column comparison table. This leverages your real multi-jurisdiction SAR experience.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 76 <span class="date">Jul 5 Sun</span><span class="day-badge badge-review">Weak Areas</span></div>
+        <div class="day-topic">Weak Areas Deep-Dive — Based on Mock Exam Day 70 wrong answers only</div>
+        <div class="day-resource">🔁 Go back to source material for every wrong topic. Don't review what you already know.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 77 <span class="date">Jul 6 Mon</span><span class="day-badge badge-review">Review</span></div>
+        <div class="day-topic">FULL MOCK EXAM #2 — 120 Questions, Timed. Compare score to Day 70.</div>
+        <div class="day-resource">🧪 Target: 80%+ (CAMS pass is ~75%). If below 75%, use Day 78–80 to close gaps. If above, confidence confirmed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PHASE 8 ========== -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Phase 8 — Final Mock Tests & Exam Week</div>
+        <div class="phase-meta">Week 12 &nbsp;·&nbsp; Jul 7 – Jul 13, 2026</div>
+      </div>
+      <div class="phase-tag">Exam: ~Jul 13</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-card review">
+        <div class="day-num">Day 78 <span class="date">Jul 7 Tue</span><span class="day-badge badge-review">Mock</span></div>
+        <div class="day-topic">Mock Test #3 — 80 Questions, focused on weakest Phase. Review all wrong answers same day.</div>
+        <div class="day-resource">🧪 Use ExamTopics or Quizlet community CAMS sets. Target fresh questions you haven't seen.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 79 <span class="date">Jul 8 Wed</span><span class="day-badge badge-review">Mock</span></div>
+        <div class="day-topic">Mock Test #4 — 80 Questions. Time yourself strictly. Simulate real exam pressure.</div>
+        <div class="day-resource">🧪 Note: CAMS is 120 Qs in 3.5 hours. Don't spend more than 1.75 min per question.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 80 <span class="date">Jul 9 Thu</span><span class="day-badge badge-review">Targeted</span></div>
+        <div class="day-topic">Targeted Practice — Only topic areas where you scored below 70% across all mocks</div>
+        <div class="day-resource">🔁 Go narrow and deep. One topic, all related questions, back to source. No new material.</div>
+      </div>
+      <div class="day-card review">
+        <div class="day-num">Day 81 <span class="date">Jul 10 Fri</span><span class="day-badge badge-review">Mock</span></div>
+        <div class="day-topic">FINAL FULL MOCK EXAM — 120 Qs, Exam Conditions, No Phone, Timed 3.5 hrs</div>
+        <div class="day-resource">🧪 This is your final benchmark. If 75%+ → you're ready. Trust your preparation.</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 82 <span class="date">Jul 11 Sat</span></div>
+        <div class="day-topic">Light Review: Key Frameworks Only — FATF 40 Recs summary, 5 Pillars, CDD 4 elements</div>
+        <div class="day-resource">📖 1 hour maximum. Only your own notes. No new reading. Preserve brain energy.</div>
+      </div>
+      <div class="day-card light">
+        <div class="day-num">Day 83 <span class="date">Jul 12 Sun</span><span class="day-badge badge-light">Rest</span></div>
+        <div class="day-topic">Complete Rest Day — Walk, sleep well, eat well, hydrate</div>
+        <div class="day-resource">🧘 Do NOT study. Your brain consolidates during rest. Trust the 12 weeks. You've earned this day.</div>
+      </div>
+      <div class="day-card exam">
+        <div class="day-num">Day 84 <span class="date">Jul 13 Mon</span><span class="day-badge badge-exam">EXAM</span></div>
+        <div class="day-topic">🏆 CAMS EXAM DAY — Show Up. You Know This Material.</div>
+        <div class="day-resource">⚡ Read every question twice. Flag uncertain ones. Time: 1.75 min/Q. UAE is waiting. Let's go.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM TIPS -->
+  <div class="exam-tips">
+    <h3>Exam Strategy & Tips</h3>
+    <div class="tip-row"><div class="tip-icon">📋</div><div class="tip-text"><strong>CAMS format:</strong> 120 multiple-choice questions, 3.5 hours, computer-based, scenario-heavy (80% are scenario questions — not recall).</div></div>
+    <div class="tip-row"><div class="tip-icon">⚡</div><div class="tip-text"><strong>Time management:</strong> 1 minute 45 seconds per question maximum. If stuck, flag and move on. Return at the end.</div></div>
+    <div class="tip-row"><div class="tip-icon">🧠</div><div class="tip-text"><strong>Scenario approach:</strong> Read the question stem carefully. Identify the role of the person in the scenario (compliance officer? MLRO? analyst?). Then apply FATF standards to their situation.</div></div>
+    <div class="tip-row"><div class="tip-icon">🎯</div><div class="tip-text"><strong>Pass mark:</strong> ~75% (scaled scoring). Aim for 80% in all practice tests to give yourself buffer on exam day.</div></div>
+    <div class="tip-row"><div class="tip-icon">🇦🇪</div><div class="tip-text"><strong>UAE relevance:</strong> CAMS is the most recognised AML certification in DIFC and ADGM (Dubai/Abu Dhabi financial zones). FAB, Mashreq, Emirates NBD, and Western Union UAE actively advertise CAMS as preferred/required.</div></div>
+    <div class="tip-row"><div class="tip-icon">💡</div><div class="tip-text"><strong>Vikas advantage:</strong> You have real multi-jurisdiction SAR experience (APAC, EMEA, Americas), PEP/sanctions screening with CLEAR, and merchant risk investigations. The exam formalises what you already do. Your answers will be instinctively better than a fresh candidate.</div></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  CAMS Study Calendar // AML with Vikas // Target: UAE 2026 &nbsp;·&nbsp; Built: April 2026 &nbsp;·&nbsp; Exam Target: July 13, 2026
+</div>
+
+</body>
+</html>
