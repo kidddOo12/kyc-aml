@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>OpenBO Atlas · Beneficial Ownership Register Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <i class="fas fa-globe-americas"></i> OpenBO Atlas
+        <span class="beta">beta</span>
+      </div>
+      <p class="tagline">Beneficial Ownership Register Tracker – real‑time status worldwide</p>
+    </header>
+
+    <!-- Stats banner (dynamic, filled via JS) -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><div class="stat-number" id="totalCountries">0</div><div class="stat-label">Countries Tracked</div></div>
+      <div class="stat-card"><div class="stat-number" id="publicRegisters">0</div><div class="stat-label">Public Registers</div></div>
+      <div class="stat-card"><div class="stat-number" id="lastVerified">—</div><div class="stat-label">Last Verified</div></div>
+      <div class="stat-card"><div class="stat-number" id="monthlyUpdates">0</div><div class="stat-label">Community Updates <span class="stat-note">(this month)</span></div></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search country or register...">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Status:</span>
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="public">Public</option>
+          <option value="restricted">Restricted</option>
+          <option value="planned">Planned</option>
+          <option value="none">None / No information</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main grid + side panel (flex layout) -->
+    <div class="main-layout">
+      <!-- Country grid -->
+      <div class="grid-container" id="countryGrid"></div>
+
+      <!-- Side details panel -->
+      <aside class="details-panel" id="detailsPanel">
+        <div class="panel-header">
+          <h3><i class="fas fa-info-circle"></i> Country Details</h3>
+          <button id="closePanelBtn" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="panelContent">
+          <p class="placeholder">Select a country to see full details.</p>
+        </div>
+        <div class="panel-export" id="panelExport" style="display: none;">
+          <button id="exportJsonBtn" class="btn-small"><i class="fas fa-code"></i> JSON</button>
+          <button id="exportCsvBtn" class="btn-small"><i class="fas fa-table"></i> CSV</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Compare section -->
+    <div class="compare-section">
+      <h3><i class="fas fa-chart-simple"></i> Compare two countries</h3>
+      <div class="compare-selectors">
+        <select id="compareCountryA">
+          <option value="">Select country</option>
+        </select>
+        <span>vs</span>
+        <select id="compareCountryB">
+          <option value="">Select country</option>
+        </select>
+        <button id="compareBtn" class="btn-primary">Compare</button>
+      </div>
+      <div id="compareResult" class="compare-result"></div>
+    </div>
+
+    <footer>
+      <p><i class="fas fa-github"></i> Data is open source – <a href="#" id="reportLink" target="_blank">report an update</a> or submit a pull request.</p>
+      <p>© 2025 OpenBO Atlas – an open‑source initiative for compliance professionals worldwide.</p>
+    </footer>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
